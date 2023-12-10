@@ -1,0 +1,61 @@
+package com.zzjj.consistency.scheduler;
+
+import com.zzjj.consistency.scheduler.follower.FollowerHeartbeatScheduler;
+import com.zzjj.consistency.scheduler.follower.LeaderAliveCheckScheduler;
+import com.zzjj.consistency.scheduler.leader.FollowerAliveCheckScheduler;
+import com.zzjj.consistency.scheduler.leader.LeaderToFollowerHeartbeatScheduler;
+
+/**
+ * 调度接口
+ *
+ * @author zengjin
+ * @date 2023/11/19
+ **/
+public interface Scheduler {
+
+    /**
+     * 创建leader用于检测follower是否存活的调度器
+     *
+     * @param task 任务task
+     * @return 选举超时调度器
+     */
+    FollowerAliveCheckScheduler createFollowerAliveCheckScheduler(Runnable task);
+
+    /**
+     * 心跳任务的调度器
+     *
+     * @param task 心跳任务
+     * @return 心跳任务调度器
+     */
+    LeaderToFollowerHeartbeatScheduler createLeaderToFollowerHeartbeatScheduler(Runnable task);
+
+    /**
+     * 任务执行调度器
+     *
+     * @param task 一致性任务调度器
+     * @return 一致性任务调度器
+     */
+    ConsistencyTaskScheduler createConsistencyTaskScheduler(Runnable task);
+
+    /**
+     * 创建follower对leader心跳检测的调度器
+     *
+     * @param task 心跳任务
+     * @return follower心跳任务调度器
+     */
+    FollowerHeartbeatScheduler createFollowerHeartbeatScheduler(Runnable task);
+
+    /**
+     * 创建follower用于检测leader是否存活的调度器
+     *
+     * @param task 任务
+     * @return follower用于检测leader是否存活的调度器
+     */
+    LeaderAliveCheckScheduler createLeaderAliveScheduler(Runnable task);
+
+    /**
+     * 取消所有调度任务
+     */
+    void cancelAllScheduler();
+
+}
